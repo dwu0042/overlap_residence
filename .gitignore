@@ -1,2 +1,3 @@
 **_pycache__**
 .pytest_cache
+.vscode
