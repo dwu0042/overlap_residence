@@ -67,7 +67,11 @@ def make_overlap_graph(residence):
             G.add_node(loc, cls=2)
             for othernode, duration in overlap.items():
                 G.add_node(othernode, cls=0)
-                overlap_label = tuple(sorted((selfnode, othernode)))
+                overlap_root = tuple(sorted((selfnode, othernode)) + [loc])
+                i = 0
+                while (*overlap_root, i) in G:
+                    i += 1
+                overlap_label = (*overlap_root, i)
                 G.add_node(overlap_label, cls=1, duration=duration)
                 G.add_edge(selfnode, overlap_label)
                 G.add_edge(othernode, overlap_label)
@@ -77,3 +81,14 @@ def make_overlap_graph(residence):
 def fold(G, cls):
     """Collapse the graph over a certain class of nodes"""
     pass
+
+def export_gml(G, path):
+    def stringizer(node):
+        if isinstance(node, tuple):
+            return '%'.join(str(x) for x in node)
+        else:
+            return str(node)
+    nx.write_gml(G, path, stringizer=stringizer)
+
+def export_graphviz(G, path):
+    nx.nx_pydot.write_dot(G, path)
