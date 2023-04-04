@@ -4,6 +4,8 @@ from typing import Any
 
 import networkx as nx
 
+__all__ = ['Interval', 'compute_shared_residence_times', 'make_overlap_graph', 'export_gml', 'export_graphviz']
+
 @dataclass(order=True, frozen=True)
 class Interval():
     """Interval contains information about an individual's (iden) tenure of stay (start, end) at location (loc)"""
